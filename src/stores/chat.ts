@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { Chat, Message, ChatSettings, ChatCompletionRequest } from '@/types/chat'
+import { config } from '@/config'
 
-const API_URL = 'http://localhost:4000/chat/completions'
-const API_KEY = 'sk-1234'
+const API_URL = `${config.openai.apiHost}/chat/completions`
+const API_KEY = config.openai.apiKey
 
 export const useChatStore = defineStore('chat', () => {
   const chats = ref<Chat[]>([])
