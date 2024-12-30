@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { Chat, Message, ChatSettings, ChatCompletionRequest } from '@/types/chat'
+import type { Chat, Message, ChatSettings, ChatCompletionRequest, ChatCompletionResponse } from '@/types/chat'
 import { config } from '@/config'
 
 const API_URL = `${config.openai.apiHost}/chat/completions`
@@ -89,12 +89,12 @@ export const useChatStore = defineStore('chat', () => {
           assistantMessage.content = content
         }
       } else {
-        const data = await response.json()
+        const data: ChatCompletionResponse = await response.json()
         const assistantMessage: Message = {
-          id: crypto.randomUUID(),
-          role: 'assistant',
+          id: data.id,
+          role: data.choices[0].message.role,
           content: data.choices[0].message.content,
-          timestamp: Date.now()
+          timestamp: data.created * 1000 // Convert Unix timestamp from seconds to milliseconds
         }
         currentChat.value?.messages.push(assistantMessage)
       }
