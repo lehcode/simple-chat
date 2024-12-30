@@ -21,6 +21,7 @@ export interface ChatSettings {
 }
 
 export interface ChatCompletionRequest {
+  model: string
   messages: Pick<Message, 'role' | 'content'>[]
   temperature: number
   stream: boolean

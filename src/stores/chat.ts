@@ -48,9 +48,10 @@ export const useChatStore = defineStore('chat', () => {
     try {
       const messages = currentChat.value?.messages.map(({ role, content }) => ({ role, content })) || []
       const request: ChatCompletionRequest = {
+        model: config.openai.model,
         messages,
-        temperature: settings.value.temperature,
-        stream: settings.value.streaming
+        temperature: config.openai.temperature,
+        stream: config.openai.stream
       }
 
       const response = await fetch(API_URL, {
