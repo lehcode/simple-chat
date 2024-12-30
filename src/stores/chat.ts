@@ -48,9 +48,10 @@ export const useChatStore = defineStore('chat', () => {
     try {
       const messages = currentChat.value?.messages.map(({ role, content }) => ({ role, content })) || []
       const request: ChatCompletionRequest = {
+        model: 'llama-3.1',
         messages,
-        temperature: settings.value.temperature,
-        stream: settings.value.streaming
+        temperature: 0.5,
+        stream: false
       }
 
       const response = await fetch(API_URL, {
